@@ -91,7 +91,7 @@ service:
   #   type: NodePort
   #   nodeport: <value>
   type: ClusterIP
-  port: 80
+  port: 8080
   annotations: {}
 
 resources: {}
