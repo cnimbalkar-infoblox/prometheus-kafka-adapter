@@ -5,7 +5,7 @@ pipeline {
    label 'ubuntu_docker_label'
  }
  environment {
-   HELM_IMAGE = "infoblox/helm:3.2.4-5b243a2"
+   HELM_IMAGE = "infoblox/helm:3"
    REGISTRY = "core-harbor-prod.sdp.infoblox.com"
    VERSION = sh(script: "git describe --always --long --tags | sed s/^prometheus-kafka-adapter-//", returnStdout: true).trim()
    TAG = "${env.VERSION}-j${env.BUILD_NUMBER}"
@@ -50,7 +50,7 @@ pipeline {
    }
    stage("Push Chart") {
      steps {
-       withAWS(credentials: "CICD_HELM", region: "us-east-1") {
+       withAWS(credentials: "CICD_HELM", region: "      us-east-1") {
          sh '''
            chart_file=prometheus-kafka-adapter-$TAG.tgz
            docker run --rm \
