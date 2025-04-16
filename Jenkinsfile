@@ -31,7 +31,7 @@ pipeline {
    }
    stage("Package Chart") {
      steps {
-       dir("chart") {
+       dir("helm") {
          sh '''
            sed -i "s!repository: .*!repository: $REGISTRY/infoblox/prometheus-kafka-adapter!g" prometheus-kafka-adapter/values.yaml
          '''
@@ -57,7 +57,7 @@ pipeline {
                -e AWS_REGION \
                -e AWS_ACCESS_KEY_ID \
                -e AWS_SECRET_ACCESS_KEY \
-               -v $(pwd)/chart:/pkg \
+               -v $(pwd)/helm:/pkg \
                $HELM_IMAGE s3 push /pkg/$chart_file infobloxcto
            echo "repo=infobloxcto" > build.properties
            echo "chart=$chart_file" >> build.properties
@@ -66,7 +66,7 @@ pipeline {
          '''
        }
        archiveArtifacts artifacts: 'build.properties'
-       archiveArtifacts artifacts: 'chart/*.tgz'
+       archiveArtifacts artifacts: 'helm/*.tgz'
      }
    }
  }
